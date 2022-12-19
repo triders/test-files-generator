@@ -130,4 +130,5 @@ dmypy.json
 
 # my
 .idea/
-generated*
+unidir*
+dnt*
