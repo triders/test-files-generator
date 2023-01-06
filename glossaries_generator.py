@@ -7,32 +7,43 @@ import random
 def generate_dnt_glossary(
         size: int,
         language: Literal["en_us", "ru_ru", "ja_jp", "fr_fr", "zh_tw", "zh_cn", "ar_aa", "pt_pt"] = "en_us",
-        cs_types: list = ["lower", "upper", "regular", "custom"],
+        cs_types: list = ["lower", "upper", "regular", "cUstom", "custoM", "cUSTOM", "CUSTOm", "CustoM"],
         file_name="dnt"
 ):
     f = Faker(language)
     dnt_list = []
-    with open(f"{file_name}_{str(size)}_{language}_{datetime.datetime.now()}.csv", "w") as file:
+    with open(f"{file_name}_{str(size)}_{language}_{len(cs_types)}_cs_types_{datetime.datetime.now()}.csv", "w") as file:
         for i in range(size):
             while True:
                 dnt_term = f"{f.word()} {f.word()}"
-                term_cs_type = random.choice(cs_types)
-                if term_cs_type == "lower":
-                    pass  # already in lowercase
-                elif term_cs_type == "upper":
-                    dnt_term = dnt_term.upper()
-                elif term_cs_type == "regular":
-                    dnt_term = dnt_term[0].upper() + dnt_term[1:]
-                elif term_cs_type == "custom":
-                    dnt_term = dnt_term[0].lower() + dnt_term[1].upper() + dnt_term[2:]
-
                 if dnt_term not in dnt_list:
-                    if i == size - 1:
-                        file.write(f"{dnt_term}")
-                        break
-                    file.write(f"{dnt_term}\n")
                     dnt_list.append(dnt_term)
+                else:
+                    continue
+
+                new_term_list = []
+                if "lower" in cs_types:
+                    new_term_list.append(dnt_term)  # already in lowercase
+                if "upper" in cs_types:
+                    new_term_list.append(dnt_term.upper())
+                if "regular" in cs_types:
+                    new_term_list.append(dnt_term[0].upper() + dnt_term[1:])
+                if "cUstom" in cs_types:
+                    new_term_list.append(dnt_term[0].lower() + dnt_term[1].upper() + dnt_term[2:])
+                if "custoM" in cs_types:
+                    new_term_list.append(dnt_term[:-1].lower() + dnt_term[-1].upper())
+                if "cUSTOM" in cs_types:
+                    new_term_list.append(dnt_term[0].lower() + dnt_term[1:].upper())
+                if "CUSTOm" in cs_types:
+                    new_term_list.append(dnt_term[:-1].upper() + dnt_term[-1].lower())
+                if "CustoM" in cs_types:
+                    new_term_list.append(dnt_term[0].upper() + dnt_term[1:-1].lower()+ dnt_term[-1].upper())
+
+                if i == size - 1:
                     break
+                for term in new_term_list:
+                    file.write(f"{term}\n")
+                break
 
 
 def generate_unidirectional_glossary(
@@ -77,6 +88,11 @@ def generate_unidirectional_glossary(
 
 
 if __name__ == "__main__":
-    generate_dnt_glossary(10, language="en_us", cs_types=["lower", "upper", "regular", "custom"])
-    # generate_unidirectional_glossary(10, source_language="zh_tw", target_language="ar_aa", cs_types=["lower", "upper", "custom"])
+    generate_dnt_glossary(
+        size=5,
+        language="en_us",
+        cs_types=["lower", "upper", "regular", "cUstom", "custoM", "cUSTOM", "CUSTOm", "CustoM"]
+    )
+    # generate_dnt_glossary(100, language="en_us", cs_types=["lower", "upper", "regular", "custom"])
+    # generate_unidirectional_glossary(100, source_language="en_us", target_language="ru_ru", cs_types=["lower", "upper", "custom"])
     # generate_unidirectional_glossary(10, source_language="ru_ru", target_language="pt_pt", cs_types=["custom"])
