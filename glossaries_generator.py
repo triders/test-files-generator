@@ -85,7 +85,7 @@ def generate_unidirectional_glossary(
                 for _ in range(words_in_term):
                     target_term += get_word(4, f_target) + " "
 
-                uni_term = source_term[:-1] + ", " + target_term[:-1]
+                uni_term = source_term[:-1] + "," + target_term[:-1]
 
                 if uni_term not in gloss_list:
                     gloss_list.append(uni_term)
@@ -98,44 +98,44 @@ def generate_unidirectional_glossary(
                 if "upper" in cs_types:
                     new_term_list.append(uni_term.upper())
                 if "regular" in cs_types:
-                    uni_term_split = uni_term.split(", ")
+                    uni_term_split = uni_term.split(",")
                     new_term_list.append(
                         uni_term_split[0][0].upper() + uni_term_split[0][1:].lower() + \
-                        ", " + \
+                        "," + \
                         uni_term_split[1][0].upper() + uni_term_split[1][1:].lower())
                 if "cUstom" in cs_types:
-                    uni_term_split = uni_term.split(", ")
+                    uni_term_split = uni_term.split(",")
                     new_term_list.append(
                         uni_term_split[0][0].lower() + uni_term_split[0][1].upper() + uni_term_split[0][2:].lower() + \
-                        ", " + \
+                        "," + \
                         uni_term_split[1][0].lower() + uni_term_split[1][1].upper() + uni_term_split[1][2:].lower())
 
                 if "custoM" in cs_types:
-                    uni_term_split = uni_term.split(", ")
+                    uni_term_split = uni_term.split(",")
                     new_term_list.append(
                         uni_term_split[0][:-1].lower() + uni_term_split[0][-1].upper() + \
-                        ", " + \
+                        "," + \
                         uni_term_split[1][:-1].lower() + uni_term_split[1][-1].upper())
 
                 if "cUSTOM" in cs_types:
-                    uni_term_split = uni_term.split(", ")
+                    uni_term_split = uni_term.split(",")
                     new_term_list.append(
                         uni_term_split[0][0].lower() + uni_term_split[0][1:].upper() + \
-                        ", " + \
+                        "," + \
                         uni_term_split[1][0].lower() + uni_term_split[1][1:].upper())
 
                 if "CUSTOm" in cs_types:
-                    uni_term_split = uni_term.split(", ")
+                    uni_term_split = uni_term.split(",")
                     new_term_list.append(
                         uni_term_split[0][:-1].upper() + uni_term_split[0][-1].lower() + \
-                        ", " + \
+                        "," + \
                         uni_term_split[1][:-1].upper() + uni_term_split[1][-1].lower())
 
                 if "CustoM" in cs_types:
-                    uni_term_split = uni_term.split(", ")
+                    uni_term_split = uni_term.split(",")
                     new_term_list.append(
                         uni_term_split[0][0].upper() + uni_term_split[0][1:-1].lower() + uni_term_split[0][-1].upper() + \
-                        ", " + \
+                        "," + \
                         uni_term_split[1][0].upper() + uni_term_split[1][1:-1].lower() + uni_term_split[1][-1].upper())
 
                 for term in new_term_list:
