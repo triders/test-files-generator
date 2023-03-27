@@ -1,6 +1,7 @@
 from typing import Literal
 from faker import Faker
 import datetime
+from helpers import get_word_separator
 
 
 def get_word(min_length, faker_instance):
@@ -19,6 +20,7 @@ def generate_dnt_glossary(
 ):
     try:
         f = Faker(language)
+        separator = get_word_separator(language)
     except:
         raise ValueError(f"Language {language} is not supported")
 
@@ -29,7 +31,7 @@ def generate_dnt_glossary(
                 # we need while True to avoid terms duplication; the loop breaks on the last line
                 dnt_term = ""
                 for _ in range(words_in_term):
-                    dnt_term += get_word(4, f) + " "
+                    dnt_term += get_word(4, f) + separator
 
                 if dnt_term not in dnt_list:
                     dnt_list.append(dnt_term)
@@ -69,7 +71,9 @@ def generate_unidirectional_glossary(
 ):
     try:
         f_source = Faker(source_language)
+        source_separator = get_word_separator(source_language)
         f_target = Faker(target_language)
+        target_separator = get_word_separator(target_language)
     except:
         raise ValueError(f"language pair {source_language}, {target_language}  is not supported")
 
@@ -81,9 +85,9 @@ def generate_unidirectional_glossary(
                 source_term = ""
                 target_term = ""
                 for _ in range(words_in_term):
-                     source_term += get_word(4, f_source) + " "
+                     source_term += get_word(4, f_source) + source_separator
                 for _ in range(words_in_term):
-                    target_term += get_word(4, f_target) + " "
+                    target_term += get_word(4, f_target) + target_separator
 
                 uni_term = source_term[:-1] + "," + target_term[:-1]
 
